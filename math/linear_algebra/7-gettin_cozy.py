@@ -5,6 +5,9 @@ Module documented.
 
 
 def cat_matrices2D(mat1, mat2, axis=0):
+    """
+    Documented
+    """
     catmat = []
 
     if not isinstance(mat1, list) or not isinstance(mat2, list):

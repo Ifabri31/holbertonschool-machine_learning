@@ -5,6 +5,9 @@ Module documented.
 
 
 def matrix_shape(matrix):
+    """
+    Documented
+    """
     shape = []
 
     while isinstance(matrix, list):

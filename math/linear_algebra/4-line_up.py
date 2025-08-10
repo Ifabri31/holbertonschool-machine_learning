@@ -5,6 +5,9 @@ Module documented.
 
 
 def add_arrays(arr1, arr2):
+    """
+    Documented
+    """
     if len(arr1) != len(arr2):
         return None
     response = []

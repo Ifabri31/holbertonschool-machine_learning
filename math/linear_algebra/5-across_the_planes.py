@@ -5,6 +5,9 @@ Module documented.
 
 
 def add_matrices2D(mat1, mat2):
+    """
+    Documented
+    """
     if len(mat1) != len(mat2) or len(mat1[0]) != len(mat2[0]):
         return None
     result = []

@@ -5,6 +5,9 @@ Module documented.
 
 
 def matrix_transpose(matrix):
+    """
+    Documented
+    """
     transpose = []
 
     for i in range(len(matrix[0])):
