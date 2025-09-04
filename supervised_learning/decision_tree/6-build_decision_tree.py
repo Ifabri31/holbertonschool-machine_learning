@@ -146,37 +146,50 @@ class Node:
         """
         def is_large_enough(x):
             """
-            returns a np.array with values
-            true or false acording to
-            a bounds condition
+            Check if features are >= their lower bounds
             """
+            if x.ndim == 1:
+                for feature, lower_value in self.lower.items():
+                    if x[feature] < lower_value:
+                        return False
+                return True
             result = np.ones(len(x), dtype=bool)
             for i in range(len(x)):
-                result[i] = True
-                for feature, lower_vales in self.lower.items():
-                    if x[i, feature] < lower_vales:
+                for feature, lower_value in self.lower.items():
+                    if x[i, feature] < lower_value:
                         result[i] = False
                         break
-                    result[i] = True
             return result
 
         def is_small_enough(x):
             """
-            returns a np.array with values
-            true or false acording to
-            a bounds condition
+            Check if features are <= their upper bounds
             """
+            if x.ndim == 1:
+                for feature, upper_value in self.upper.items():
+                    if x[feature] > upper_value:
+                        return False
+                return True
             result = np.ones(len(x), dtype=bool)
             for i in range(len(x)):
-                result[i] = True
                 for feature, upper_value in self.upper.items():
                     if x[i, feature] > upper_value:
                         result[i] = False
                         break
-                    result[i] = True
             return result
-        self.indicator = lambda x: np.all(
-            np.array([is_large_enough(x), is_small_enough(x)]), axis=0)
+        self.indicator = lambda x: (
+            is_large_enough(x) and is_small_enough(x) if x.ndim == 1
+            else np.logical_and(is_large_enough(x), is_small_enough(x))
+        )
+
+    def pred(self, x):
+        """
+        Predict the class for a given input sample.
+        """
+        if x[self.feature] > self.threshold:
+            return self.left_child.pred(x)
+        else:
+            return self.right_child.pred(x)
 
 
 class Leaf(Node):
@@ -224,6 +237,12 @@ class Leaf(Node):
         Updates the upper and lower bounds
         """
         pass
+
+    def pred(self, x):
+        """
+        Predict the target value for the given input.
+        """
+        return self.value
 
 
 class Decision_Tree():

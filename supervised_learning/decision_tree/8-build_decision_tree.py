@@ -437,7 +437,7 @@ class Decision_Tree():
 
     def Gini_split_criterion_one_feature(self, node, feature):
         """
-        Computes the Gini impurity for a single feature and 
+        Computes the Gini impurity for a single feature and
         returns the best threshold and impurity.
         """
         feature_values = self.explanatory[node.sub_population, feature]
