@@ -64,13 +64,14 @@ class Isolation_Random_Tree():
         leaves = self.get_leaves()
         for leaf in leaves:
             leaf.update_indicator()
+
         def predict_func(A):
             results = np.zeros(len(A))
             for i in range(len(A)):
                 for leaf in leaves:
                     if leaf.indicator(A[i]):
                         results[i] = leaf.pred(A[i])
-                        break  # Only take first matching leaf
+                        break
             return results
         self.predict = predict_func
 
