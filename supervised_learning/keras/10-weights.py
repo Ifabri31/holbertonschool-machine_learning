@@ -17,4 +17,3 @@ def load_weights(network, filename):
     docstring
     """
     network.load_weights(filename)
-    
