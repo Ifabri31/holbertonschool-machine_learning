@@ -9,8 +9,7 @@ def batch_norm(Z, gamma, beta, epsilon):
     """
     docstring
     """
-    Z_mean = Z.mean(axis=0)
-    Z_var = Z.var(axis=0)
-    Z_norm = (Z - Z_mean) / np,sqrt(Z_var + epsilon)
-    Z_tilde = gamma * Z_norm + beta
-    return Z_tilde
+    mean = np.mean(Z, axis=0)
+    variance = np.var(Z, axis=0)
+    normalized = (Z - mean) / np.sqrt(variance + epsilon)
+    return gamma * normalized + beta
