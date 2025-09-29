@@ -28,4 +28,3 @@ def convolve_grayscale_same(images, kernel):
             output[:, i, j] = np.sum(region * kernel, axis=(1, 2))
 
     return output
-

@@ -5,9 +5,9 @@
 import numpy as np
 
 
-def convolve(images, kernel, padding='same', stride=(1, 1)):
+def convolve(images, kernels, padding='same', stride=(1, 1)):
     """
-    performs a convolution on images using myltiple kernels
+    performs a convolution on images using multiple kernels
     """
     kh, kw, kc, nc = kernels.shape
     m, h, w, c = images.shape
