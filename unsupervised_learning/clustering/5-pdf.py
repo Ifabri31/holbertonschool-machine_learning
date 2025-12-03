@@ -19,7 +19,7 @@ def pdf(X, m, S):
     X = np.asarray(X)
     m = np.asarray(m)
     S = np.asarray(S)
-    d = X.shape
+    n, d = X.shape
     det = np.linalg.det(S)
     inv = np.linalg.inv(S)
     norm_const = 1.0 / ((2 * np.pi) ** (d / 2) * np.sqrt(det))
