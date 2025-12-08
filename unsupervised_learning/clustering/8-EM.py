@@ -33,7 +33,8 @@ def expectation_maximization(X, k, iterations=1000, tol=1e-5, verbose=False):
         if g is None or li is None:
             return None, None, None, None, None
         if verbose and (i % 10 == 0 or i == iterations):
-            print(f"Log Likelihood after {i} iterations: {format_number(li)}")
+            print(
+                f"Log Likelihood after {i} iterations: {format_number(li)}")
         if i > 0 and prev_l is not None and abs(li - prev_l) < tol:
             if verbose:
                 print(f"Log Likelihood after {i} iterations: {format_number(li)}")
@@ -53,5 +54,6 @@ def format_number(value):
     """
     formatted = f"{value:.5f}"
     if '.' in formatted:
-        formatted = formatted.rstrip('0').rstrip('.') if formatted.endswith('0') else formatted
+        formatted = formatted.rstrip('0').rstrip('.') 
+        if formatted.endswith('0') else formatted
     return formatted
