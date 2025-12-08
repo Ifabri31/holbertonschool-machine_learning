@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
-9-bic.py
+9-BIC.py
 """
 import numpy as np
 expectation_maximization = __import__('8-EM').expectation_maximization
 
 
 def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
-    """
-    calculates the BIC for several models and selects the best one
-    """
+    """Optimized version of BIC calculation"""
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None, None, None, None
     if not isinstance(kmin, int) or kmin < 1:
@@ -37,10 +35,13 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
         idx = i - kmin
         pi, m, S, g, li = expectation_maximization(
             X, i, iterations, tol, verbose)
+
         p = (i * d) + (i * d * (d + 1) // 2) + (i - 1)
         current_BIC = p * np.log(n) - 2 * li
+
         L[idx] = li
         b[idx] = current_BIC
+
         if current_BIC < best_BIC:
             best_k = i
             best_result = (pi, m, S)
