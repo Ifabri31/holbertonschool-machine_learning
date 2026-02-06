@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+"""
+0-bag_of_words.py
+"""
+import string
+import numpy as np
+
+
+def bag_of_words(sentences, vocab=None):
+    """
+    creates a bag of words embedding matrix
+    """
+    s_words = {'is', 'was', 'has', 'this', 'his', 'hers', 'its', 'us'}
+    punctuation = set(string.punctuation)
+    if vocab is None:
+        vocab = set()
+
+        for sentence in sentences:
+            for word in sentence.split():
+                word = word.lower()
+                word = ''.join(
+                    char for char in word if char not in punctuation)
+                vocab.add(word)
+
+        vocab_list = list(vocab)
+
+        final_vocab = set()
+        for word in vocab_list:
+            if (word.endswith('s') and
+                len(word) > 1 and  # Don't process single letter words
+                not word.endswith('ss') and  # Words like 'class', 'glass'
+                not word.endswith('us') and  # Words like 'bus', 'plus'
+                    word not in s_words):  # Common exceptions
+
+                singular = word[:-1]
+                if singular in vocab_list:
+                    final_vocab.add(singular)
+                else:
+                    final_vocab.add(word)
+            else:
+                final_vocab.add(word)
+
+        vocab = sorted(final_vocab)
+
+    word2idx = {word: i for i, word in enumerate(vocab)}
+    embedding = [[0 for _ in range(len(vocab))] for _ in range(len(sentences))]
+
+    for i, sentence in enumerate(sentences):
+        sentence = sentence.lower()
+        sentence = ''.join(
+            char for char in sentence if char not in punctuation)
+        for word in sentence.split():
+            processed_word = word.lower()
+            processed_word = ''.join(
+                char for char in processed_word if char not in punctuation)
+
+            if (processed_word.endswith('s') and
+                len(processed_word) > 1 and
+                not processed_word.endswith('ss') and
+                not processed_word.endswith('us') and
+                    processed_word not in s_words):
+
+                singular = processed_word[:-1]
+                if singular in word2idx:
+                    processed_word = singular
+
+            if processed_word in word2idx:
+                embedding[i][word2idx[processed_word]] += 1
+
+    embedding = np.array(embedding)
+    vocab = np.array(vocab)
+    return embedding, vocab
