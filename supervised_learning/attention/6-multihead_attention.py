@@ -14,14 +14,6 @@ class MultiHeadAttention(tf.keras.layers.Layer):
     def __init__(self, dm, h):
         """
         dm is the dimensionality of the model
-        h is the number of heads
-        dm is divisible by h
-         The multi head attention mechanism consists of four dense layers and a
-         final linear layer. The first three dense layers are for the query, key,
-         and value matrices, respectively. The fourth is for the output. The
-         multi head attention mechanism splits the query, key, and value matrices
-         into h heads, and concatenates the scaled dot product attention output of
-         each head before passing it through the final linear layer
         """
         super(MultiHeadAttention, self).__init__()
         self.h = h
@@ -36,18 +28,7 @@ class MultiHeadAttention(tf.keras.layers.Layer):
 
     def call(self, Q, K, V, mask):
         """
-        Q is a tensor of shape (batch, seq_len_q, dm) containing the input to
-            generate the query matrix
-        K is a tensor of shape (batch, seq_len_k, dm) containing the input to
-            generate the key matrix
-        V is a tensor of shape (batch, seq_len_v, dm) containing the input to
-            generate the value matrix
-        mask is always None
-        The preceding three tensors are projected h times (one for each head)
-        The multi head attention output is a tensor of shape (batch, seq_len_q, dm)
-         containing the scaled dot product attention for each projected version
-         of the query, key, and value matrices
-         after they are concatenated
+        calls the multi head attention layer
         """
         batch_size = tf.shape(Q)[0]
 
