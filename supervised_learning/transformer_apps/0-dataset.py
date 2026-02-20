@@ -10,6 +10,7 @@ class Dataset:
     """
     loads and preps a dataset for machine translation
     """
+
     def __init__(self):
         """constructor"""
         self.data_train = tfds.load(
@@ -25,38 +26,18 @@ class Dataset:
         """
         creates sub-word tokenizers for our dataset
         """
-        def pt_iterator():
-            batch = []
-            for pt, _ in data.as_numpy_iterator():
-                batch.append(pt.decode('utf-8'))
-                if len(batch) >= 1000:
-                    yield batch
-                    batch = []
-            if batch:
-                yield batch
-
-        def en_iterator():
-            batch = []
-            for _, en in data.as_numpy_iterator():
-                batch.append(en.decode('utf-8'))
-                if len(batch) >= 1000:
-                    yield batch
-                    batch = []
-            if batch:
-                yield batch
-
         tokenizer_pt = transformers.AutoTokenizer.from_pretrained(
             'neuralmind/bert-base-portuguese-cased',
             clean_up_tokenization_spaces=True)
-            
         tokenizer_en = transformers.AutoTokenizer.from_pretrained(
-            'bert-base-uncased',
-            clean_up_tokenization_spaces=True)
+            'bert-base-uncased', clean_up_tokenization_spaces=True)
+
+        pt_iter = (pt.decode('utf-8') for pt, _ in data.as_numpy_iterator())
+        en_iter = (en.decode('utf-8') for _, en in data.as_numpy_iterator())
 
         tokenizer_pt = tokenizer_pt.train_new_from_iterator(
-            pt_iterator(), 2**13)
-            
+            pt_iter, 2**13)
         tokenizer_en = tokenizer_en.train_new_from_iterator(
-            en_iterator(), 2**13)
+            en_iter, 2**13)
 
         return tokenizer_pt, tokenizer_en
