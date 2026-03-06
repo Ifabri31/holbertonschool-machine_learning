@@ -13,7 +13,6 @@ def play(env, Q, max_steps=100):
     terminated = False
     truncated = False
     total_reward = 0
-    actions = ["Left", "Down", "Right", "Up"]
     states = []
 
     for _ in range(max_steps):
