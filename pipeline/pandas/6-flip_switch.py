@@ -6,7 +6,7 @@
 
 def flip_switch(df):
     """
-    Sort the data in reverse chronological order and 
+    Sort the data in reverse chronological order and
     transpose the sorted dataframe.
     """
     df = df.iloc[::-1]
